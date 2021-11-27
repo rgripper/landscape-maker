@@ -1,0 +1,21 @@
+{
+  "name": "landscape-maker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@wasm-tool/wasm-pack-plugin": "^1.6.0",
+    "html-webpack-plugin": "^5.5.0",
+    "sass": "^1.43.5",
+    "sass-loader": "^12.3.0",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  },
+  "scripts": {
+    "start": "webpack serve --open --mode development",
+    "server": "ws -d dist",
+    "clean": "rimraf dist pkg target"
+  }
+}
