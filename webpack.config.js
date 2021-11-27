@@ -73,7 +73,7 @@ export default {
         }),
     ],
     experiments: {
-        syncWebAssembly: true,
+        asyncWebAssembly: true,
     },
     devServer: {
         port: '8080',
