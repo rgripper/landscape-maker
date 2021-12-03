@@ -15,6 +15,21 @@ export default {
     module: {
         rules: [
             {
+                test: /\.(t|j)s$/,
+                loader: 'esbuild-loader',
+                options: {
+                    loader: 'ts',
+                    target: 'es2015'
+                }
+            },
+            {
+                //this is another webpack 5 feature you don't get with CRA on webpack 4.  It can automatically pull any 
+                //files we reference and spit them out as assets in the output folder.  In webpack 4 you had to use file loader, url loader, and so on
+                //no more with webpack 5, much simpler.
+                test: /\.(woff(2)?|ttf|eot|svg|jpg|jpeg|png|gif|pdf)(\?v=\d+\.\d+\.\d+)?$/, //here we tell webpack that all fonts, images, pdfs are are asset/resource
+                type: 'asset/resource'
+            },
+            {
                 //this is another webpack 5 feature you don't get with CRA on webpack 4.  It can automatically pull any 
                 //files we reference and spit them out as assets in the output folder.  In webpack 4 you had to use file loader, url loader, and so on
                 //no more with webpack 5, much simpler.

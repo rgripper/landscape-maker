@@ -14,24 +14,34 @@ use wasm_bindgen::prelude::*;
 // signatures documented on MDN, for example
 #[wasm_bindgen]
 extern "C" {
-    type HTMLDocument;
-    static document: HTMLDocument;
-    #[wasm_bindgen(method)]
-    fn createElement(this: &HTMLDocument, tagName: &str) -> Element;
-    #[wasm_bindgen(method, getter)]
-    fn body(this: &HTMLDocument) -> Element;
-
-    type Element;
-    #[wasm_bindgen(method, setter = innerHTML)]
-    fn set_inner_html(this: &Element, html: &str);
-    #[wasm_bindgen(method, js_name = appendChild)]
-    fn append_child(this: &Element, other: Element);
+    pub type RenderingProvider;
+    #[wasm_bindgen(method)] // , js_name = update_box_layer
+    fn update_box_layer(this: &RenderingProvider, box_layer: BoxLayer);
 }
 
-// Called by our JS entry point to run the example
 #[wasm_bindgen]
-pub fn run() {
-    let val = document.createElement("p");
-    val.set_inner_html("Hello from Rust!");
-    document.body().append_child(val);
+pub struct BoxLayer {
+    pub x: f32,
+    pub y: f32,
+    pub z: f32,
+}
+
+#[wasm_bindgen]
+pub fn process_iteration(rendering_provider: &RenderingProvider) {
+    let box_layers = vec![
+        BoxLayer {
+            x: 1.0,
+            y: 2.0,
+            z: 3.0,
+        },
+        BoxLayer {
+            x: 2.0,
+            y: 3.0,
+            z: 4.0,
+        },
+    ];
+
+    for box_layer in box_layers {
+        rendering_provider.update_box_layer(box_layer)
+    }
 }

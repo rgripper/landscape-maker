@@ -1,5 +1,7 @@
-import { } from './box.js'
+import { animate, init } from './box.js'
 
 import('../pkg/index.js').then((module) => {
-    module.run()
+    init();
+    animate();
+    module.process_iteration()
 })

@@ -1,7 +1,8 @@
 import * as THREE from 'three';
-
 import { TrackballControls } from './TrackballControls.js';
 import * as BufferGeometryUtils from './BufferGeometryUtils.js';
+import { addTile } from './addTile.ts';
+import { v4 } from 'uuid';
 
 let container;
 let camera, controls, scene, renderer;
@@ -13,10 +14,9 @@ const pickingData = [];
 const pointer = new THREE.Vector2();
 const offset = new THREE.Vector3(10, 10, 10);
 
-init();
-animate();
+export const boxMap = new Map()
 
-function init() {
+export function init() {
 
     container = document.body;
 
@@ -40,73 +40,17 @@ function init() {
     const pickingMaterial = new THREE.MeshBasicMaterial({ vertexColors: true });
     const defaultMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true, vertexColors: true, shininess: 0 });
 
-    function applyVertexColors(geometry, color) {
-
-        const position = geometry.attributes.position;
-        const colors = [];
-
-        for (let i = 0; i < position.count; i++) {
-
-            colors.push(color.r, color.g, color.b);
-
-        }
-
-        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-    }
-
     const geometriesDrawn = [];
     const geometriesPicking = [];
 
-    const matrix = new THREE.Matrix4();
-    const quaternion = new THREE.Quaternion();
-    const color = new THREE.Color();
+
 
     for (let i = 0; i < 5000; i++) {
 
-        let geometry = new THREE.BoxGeometry();
+        const { pickingData, geometry } = addTile({ geometriesDrawn, i, geometriesPicking });
+        boxMap.set(v4(), geometry);
 
-        const position = new THREE.Vector3();
-        position.x = Math.random() * 10000 - 5000;
-        position.y = Math.random() * 6000 - 3000;
-        position.z = Math.random() * 8000 - 4000;
-
-        const rotation = new THREE.Euler();
-        rotation.x = 5;
-        rotation.y = 5;
-        rotation.z = 5;
-
-        const scale = new THREE.Vector3();
-        scale.x = 300;
-        scale.y = 300;
-        scale.z = 300;
-
-        quaternion.setFromEuler(rotation);
-        matrix.compose(position, quaternion, scale);
-
-        geometry.applyMatrix4(matrix);
-
-        // give the geometry's vertices a random color, to be displayed
-
-        applyVertexColors(geometry, color.setHex(Math.random() * 0xffffff));
-
-        geometriesDrawn.push(geometry);
-
-        geometry = geometry.clone();
-
-        // give the geometry's vertices a color corresponding to the "id"
-
-        applyVertexColors(geometry, color.setHex(i));
-
-        geometriesPicking.push(geometry);
-
-        pickingData[i] = {
-
-            position: position,
-            rotation: rotation,
-            scale: scale
-
-        };
+        pickingData[i] = pickingData
 
     }
 
@@ -148,7 +92,7 @@ function onPointerMove(e) {
 
 }
 
-function animate() {
+export function animate() {
 
     requestAnimationFrame(animate);
 
