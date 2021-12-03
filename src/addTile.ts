@@ -1,10 +1,7 @@
 import * as THREE from "three";
 
 export function addTile({
-  geometriesDrawn,
-  geometriesPicking,
   i,
-  boxMap,
 }: {
   geometriesDrawn: THREE.BoxGeometry[];
   geometriesPicking: THREE.BoxGeometry[];
@@ -39,17 +36,14 @@ export function addTile({
   // give the geometry's vertices a random color, to be displayed
   applyVertexColors(geometry, color.setHex(Math.random() * 0xffffff));
 
-  geometriesDrawn.push(geometry);
-
   const clonedGeometry = geometry.clone() as THREE.BoxGeometry;
 
   // give the geometry's vertices a color corresponding to the "id"
   applyVertexColors(clonedGeometry, color.setHex(i));
 
-  geometriesPicking.push(clonedGeometry);
-
   return {
-    geometry,
+    drawnGeometry: geometry,
+    pickingGeometry: clonedGeometry,
     pickingData: {
       position,
       rotation,

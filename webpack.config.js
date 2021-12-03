@@ -9,13 +9,16 @@ export default {
     //     filename: 'bundle.js'
     // },
     resolve: {
-        extensions: [".scss", ".js", ".jsx", ".tsx", ".ts"],
+        extensions: [".ts", ".js", ".scss", ".tsx", ".jsx",],
         plugins: []
     },
     module: {
         rules: [
             {
                 test: /\.(t|j)s$/,
+                resolve: {
+                    fullySpecified: false,
+                },
                 loader: 'esbuild-loader',
                 options: {
                     loader: 'ts',

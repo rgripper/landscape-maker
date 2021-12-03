@@ -1,4 +1,4 @@
-import { animate, init } from './box.js'
+import { animate, init } from './box'
 
 import('../pkg/index.js').then((module) => {
     init();
