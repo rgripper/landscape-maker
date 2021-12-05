@@ -15,10 +15,11 @@ const pickingData = [];
 
 const pointer = new THREE.Vector2();
 const offset = new THREE.Vector3(10, 10, 10);
+export type Vec3 = { x: number; y: number; z: number };
 
-export const boxMap = new Map();
+export const boxMap = new Map<number, Vec3>();
 
-export function init() {
+export function init(process_iteration: any) {
   container = document.body;
 
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 40000);
@@ -49,16 +50,20 @@ export function init() {
   const geometriesDrawn = [];
   const geometriesPicking = [];
 
-  for (let i = 0; i < 5000; i++) {
-    const { pickingData, drawnGeometry, pickingGeometry } = addTile({ geometriesDrawn, i, geometriesPicking });
-    geometriesDrawn.push(drawnGeometry);
+  const saver = { add_box_layer: (id: number, x: Vec3) => boxMap.set(id, x) };
+  process_iteration(saver);
 
+  console.log(boxMap);
+  let counter = 0;
+  boxMap.forEach((initPosition, key) => {
+    const { pickingDataItem, drawnGeometry, pickingGeometry } = addTile({ i: counter, initPosition });
+    geometriesDrawn.push(drawnGeometry);
     geometriesPicking.push(pickingGeometry);
 
-    boxMap.set(v4(), drawnGeometry);
-
-    pickingData[i] = pickingData;
-  }
+    pickingData[counter] = pickingDataItem;
+    counter++;
+  });
+  for (let i = 0; i < 5000; i++) {}
 
   const objects = new THREE.Mesh(BufferGeometryUtils.mergeBufferGeometries(geometriesDrawn), defaultMaterial);
   scene.add(objects);

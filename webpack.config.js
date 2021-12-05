@@ -22,7 +22,7 @@ export default {
                 loader: 'esbuild-loader',
                 options: {
                     loader: 'ts',
-                    target: 'es2015'
+                    target: 'es2020'
                 }
             },
             {
@@ -96,4 +96,10 @@ export default {
     devServer: {
         port: '8080',
     },
+    // https://github.com/rust-random/getrandom/issues/224
+    ignoreWarnings: [
+        (warning) =>
+            warning.message ===
+            "Critical dependency: the request of a dependency is an expression",
+    ],
 }

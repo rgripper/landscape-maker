@@ -1,5 +1,6 @@
 extern crate wasm_bindgen;
 
+use rand::prelude::*;
 use wasm_bindgen::prelude::*;
 
 // Definitions of the functionality available in JS, which wasm-bindgen will
@@ -16,7 +17,7 @@ use wasm_bindgen::prelude::*;
 extern "C" {
     pub type RenderingProvider;
     #[wasm_bindgen(method)] // , js_name = update_box_layer
-    fn update_box_layer(this: &RenderingProvider, box_layer: BoxLayer);
+    fn add_box_layer(this: &RenderingProvider, id: i32, box_layer: BoxLayer);
 }
 
 #[wasm_bindgen]
@@ -28,20 +29,23 @@ pub struct BoxLayer {
 
 #[wasm_bindgen]
 pub fn process_iteration(rendering_provider: &RenderingProvider) {
-    let box_layers = vec![
-        BoxLayer {
-            x: 1.0,
-            y: 2.0,
-            z: 3.0,
-        },
-        BoxLayer {
-            x: 2.0,
-            y: 3.0,
-            z: 4.0,
-        },
-    ];
+    let mut rng = rand::thread_rng();
+    let box_layers = (0..2000).map(|id| {
+        (
+            id,
+            BoxLayer {
+                x: rng.gen_range(0.0..5000.0),
+                y: rng.gen_range(0.0..3000.0),
+                z: rng.gen_range(0.0..4000.0),
+            },
+        )
+    });
 
-    for box_layer in box_layers {
-        rendering_provider.update_box_layer(box_layer)
+    // position.x = Math.random() * 10000 - 5000;
+    // position.y = Math.random() * 6000 - 3000;
+    // position.z = Math.random() * 8000 - 4000;
+
+    for (id, box_layer) in box_layers {
+        rendering_provider.add_box_layer(id, box_layer);
     }
 }

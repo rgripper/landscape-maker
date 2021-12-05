@@ -1,22 +1,17 @@
 import * as THREE from "three";
+import { Vec3 } from "./box";
 
-export function addTile({
-  i,
-}: {
-  geometriesDrawn: THREE.BoxGeometry[];
-  geometriesPicking: THREE.BoxGeometry[];
-  i: number;
-  boxMap: Map<unknown, THREE.BoxGeometry>;
-}) {
+export function addTile({ i, initPosition }: { i: number; initPosition: Vec3 }) {
   const matrix = new THREE.Matrix4();
   const quaternion = new THREE.Quaternion();
   const color = new THREE.Color();
 
   let geometry = new THREE.BoxGeometry();
   const position = new THREE.Vector3();
-  position.x = Math.random() * 10000 - 5000;
-  position.y = Math.random() * 6000 - 3000;
-  position.z = Math.random() * 8000 - 4000;
+  Object.assign(position, initPosition);
+  // position.x = Math.random() * 10000 - 5000;
+  // position.y = Math.random() * 6000 - 3000;
+  // position.z = Math.random() * 8000 - 4000;
 
   const rotation = new THREE.Euler();
   rotation.x = 5;
@@ -44,7 +39,7 @@ export function addTile({
   return {
     drawnGeometry: geometry,
     pickingGeometry: clonedGeometry,
-    pickingData: {
+    pickingDataItem: {
       position,
       rotation,
       scale,
