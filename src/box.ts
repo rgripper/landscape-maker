@@ -53,7 +53,6 @@ export function init(process_iteration: any) {
   const saver = { add_box_layer: (id: number, x: Vec3) => boxMap.set(id, x) };
   process_iteration(saver);
 
-  console.log(boxMap);
   let counter = 0;
   boxMap.forEach((initPosition, key) => {
     const { pickingDataItem, drawnGeometry, pickingGeometry } = addTile({ i: counter, initPosition });

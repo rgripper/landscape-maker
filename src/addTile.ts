@@ -7,8 +7,7 @@ export function addTile({ i, initPosition }: { i: number; initPosition: Vec3 }) 
   const color = new THREE.Color();
 
   let geometry = new THREE.BoxGeometry();
-  const position = new THREE.Vector3();
-  Object.assign(position, initPosition);
+  const position = new THREE.Vector3(initPosition.x, initPosition.y, initPosition.z);
   // position.x = Math.random() * 10000 - 5000;
   // position.y = Math.random() * 6000 - 3000;
   // position.z = Math.random() * 8000 - 4000;
