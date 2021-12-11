@@ -34,16 +34,14 @@ pub fn process_iteration(rendering_provider: &RenderingProvider) {
         (
             id,
             BoxLayer {
-                x: rng.gen_range(0.0..5000.0),
-                y: rng.gen_range(0.0..3000.0),
-                z: rng.gen_range(0.0..4000.0),
+                x: rng.gen_range(-2500.0..2500.0),
+                y: rng.gen_range(-1500.0..1500.0),
+                z: rng.gen_range(-2000.0..2000.0),
             },
         )
     });
+//https://towardsdatascience.com/geotiff-coordinate-querying-with-javascript-5e6caaaf88cf
 
-    // position.x = Math.random() * 10000 - 5000;
-    // position.y = Math.random() * 6000 - 3000;
-    // position.z = Math.random() * 8000 - 4000;
 
     for (id, box_layer) in box_layers {
         rendering_provider.add_box_layer(id, box_layer);
